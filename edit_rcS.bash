@@ -20,7 +20,8 @@ function get_vm_host_ip {
         exit 1
     fi
 
-    echo "$(getent hosts host.docker.internal | awk '{ print $1 }')"
+    # Use getent to get the host and filter only IPv4 addresses
+    echo "$(getent ahosts host.docker.internal | grep '^[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | awk '{ print $1 }' | head -n 1)"
 }
 
 function get_host_ip {
